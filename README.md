@@ -103,7 +103,8 @@ once.
 
 1. **Open the app** and choose your photo folder. It scans the folder; nothing is uploaded yet.
 2. **Go to Setup** and work down the list: Cloudflare → Facebook + Instagram → Gemini → Telegram.
-   Each step has buttons that open the right page and a check before it gets a ✓.
+   Each step has buttons that open the right page and a check before it gets a ✓. Facebook and
+   Instagram connect with a **Log in with Facebook** button: no tokens to copy.
 3. **Dashboard → Caption new photos**, then look through **Review** if you like.
 4. **Dashboard → Upload.** Your photos go to your private storage.
 5. **Settings**: pick your posting time(s) and switch off **Dry run** when you're ready.

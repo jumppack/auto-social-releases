@@ -143,30 +143,41 @@ Skip any "add a website" prompts.
    - **Use case:** **Other** → app type **Business**.
    - If asked about a business portfolio: **"I don't want to connect a business portfolio yet"**.
 3. Open **App settings → Basic** and copy the **App ID** and the **App secret** (click *Show*).
-4. In the app: **Setup → Meta**. Paste both and click **Save** on each.
+4. In the app: **Setup → Facebook + Instagram**. Paste both and click **Save**.
 
 > The developer app stays in "development mode". That's fine, because you're the admin of your Page
 > and Instagram, so no Meta review is needed.
 
-**4e. Grant access and connect.**
+**4e. Allow in-app login** (one time, in your developer app).
+1. In the app's dashboard sidebar, open **Facebook Login for Business → Settings**. If it isn't
+   there: **Add product → Facebook Login for Business → Set up**.
+2. Under **Client OAuth settings**, turn on **Client OAuth login** and **Embedded browser OAuth
+   login**, then **Save changes**.
+   - Leave **Valid OAuth Redirect URIs** empty.
+   - A banner saying Facebook Login for Business "requires advanced access" is fine to ignore. It
+     doesn't apply to you as the app's admin.
+
+**4f. Log in and connect.**
+1. In the app: **Setup → Facebook + Instagram → Log in with Facebook**.
+2. A Facebook window opens. Sign in, **select your Page and your Instagram account** (click
+   **Edit access** if needed), and allow everything. The window closes by itself.
+   - The app turns the login into a Page token that never expires and finds your Instagram account.
+   - Your Facebook password is never seen by the app.
+3. Click **Check connection**. You should see 5 ✓: *never expires, all 6 permissions, your Page,
+   your Instagram, publishing quota*.
+
+<details><summary>If Log in with Facebook doesn't work: use Graph API Explorer instead</summary>
+
 1. Open **Graph API Explorer**: https://developers.facebook.com/tools/explorer
 2. On the right, set **Meta App** to *your app* and **User or Page** to **User Token**.
-3. Under **Permissions**, add all six:
-   - `pages_show_list`
-   - `pages_read_engagement`
-   - `pages_manage_posts`
-   - `instagram_basic`
-   - `instagram_content_publish`
-   - `instagram_manage_insights`
-4. Click **Generate Access Token**. In the Facebook window, **select your Page and your Instagram
-   account**, and allow everything. If it says you logged in before, click **Edit access** and tick
-   them.
-5. Copy the token from the **Access Token** box. It's temporary.
-6. In the app: **Setup → Meta → Temporary token**. Paste it and click **Connect Meta**.
-   - The app turns it into a Page token that never expires and finds your Instagram account.
-   - The temporary token isn't stored.
-7. Click **Check connection**. You should see 5 ✓: *never expires, all 6 permissions, your Page,
-   your Instagram, publishing quota*.
+3. Under **Permissions**, add all six: `pages_show_list`, `pages_read_engagement`,
+   `pages_manage_posts`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_insights`.
+4. Click **Generate Access Token**. In the Facebook window, select your Page and your Instagram
+   account, and allow everything.
+5. Copy the token from the **Access Token** box, paste it into **Setup → Facebook + Instagram**, and
+   click **Connect with pasted token**. It isn't stored.
+
+</details>
 
 ---
 
@@ -281,13 +292,13 @@ New photos slot into the order by when they were taken.
 | Problem | Fix |
 |---|---|
 | No message at approval time | Send `/status`. Is it paused? Are posts left? On the Dashboard, click **Sync** |
-| "❌ A post failed to publish" | It isn't retried automatically. Check **Setup → Facebook + Instagram → Check connection**. If the token is the problem, redo step 4e, then **Update worker** |
-| "No Facebook Pages were shared with the app" | Redo 4e. In the Facebook window, click **Edit access** and tick your Page and Instagram. If it still fails, also add the `business_management` permission |
+| "❌ A post failed to publish" | It isn't retried automatically. Check **Setup → Facebook + Instagram → Check connection**. If the token is the problem, redo step 4f, then **Update worker** |
+| "No Facebook Pages were shared with the app" | Redo 4f. In the Facebook window, click **Edit access** and tick your Page and Instagram. If it still fails, also add the `business_management` permission |
 | "That doesn't look like a … token" when saving | The wrong thing was on your clipboard. Copy the value again |
 | Caption run stopped ("try again tomorrow") | The free Gemini daily limit was reached. Click **Caption new photos** again tomorrow |
 | Scan says the folder isn't available | The drive isn't connected. Nothing is marked missing until it's back |
 | Save says "Not sent to the scheduler yet" | The worker couldn't be reached. Click **Dashboard → Sync** later; the change is kept |
-| Changed your Facebook password | Redo step 4e, then **Update worker** |
+| Changed your Facebook password | Redo step 4f, then **Update worker** |
 
 ---
 
