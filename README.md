@@ -28,8 +28,11 @@ going with your computer off.
 - **Asks before posting, if you want.** Telegram sends you each pick with ✅ Approve, ✏️ Edit and
   ⏭️ Skip. Unanswered posts are auto-approved 30 minutes before posting time (or held, if you
   prefer). When you trust it, send `/auto on`.
-- **Shows how posts did.** It sends a weekly likes and comments summary to Telegram and shows the
-  totals in the app.
+- **Shows what's next and how posts did.** A Schedule screen shows today's posting times, what's
+  picked and whether it's approved, plus the posts likely to go next. An Analytics screen shows likes,
+  comments and reach per post, and Telegram gets a weekly summary.
+- **Keeps the app and Telegram in step.** Approvals and caption edits you make on Telegram show up
+  in the app, and you can pull any uploaded post out of the queue.
 
 ## How it works
 
@@ -57,6 +60,7 @@ goes to whoever made or shared the app.
 |---|---|
 | **Library**: carousels and "worth a look" warnings ![Library](docs/screenshots/library.png) | **Review**: edit captions and approve ahead of time ![Review](docs/screenshots/review.png) |
 | **Setup**: a guided checklist with a check at every step ![Setup](docs/screenshots/setup.png) | **Settings**: posting times, approval, padding ![Settings](docs/screenshots/settings.png) |
+| **Analytics**: likes, comments and your top posts ![Analytics](docs/screenshots/analytics.png) | |
 
 *The screenshots use generated sample images and made-up captions.*
 

@@ -89,15 +89,14 @@ Skip any "add a website" prompts.
 4. **Don't create a bucket.** The app creates a private one.
 
 **3d. Create one API token.**
-1. Go to https://dash.cloudflare.com/profile/api-tokens and click **Create Token**.
-2. At the bottom, choose **Custom token → Get started**.
-3. **Token name:** `Auto Social`.
-4. **Permissions:** add three rows, each **Account** → *permission* → **Edit**:
-   - `Workers Scripts`
-   - `Workers R2 Storage`
-   - `D1`
-5. **Account Resources:** Include → *your account*. Leave the rest empty.
-6. **Continue to summary → Create Token**, then **copy the token now** (it's shown only once).
+1. In the app: **Setup → Cloudflare → Create the token**. Cloudflare opens with the name
+   `Auto Social` and the three permissions already filled in (**Account** → `Workers Scripts`,
+   `Workers R2 Storage`, `D1`, each **Edit**).
+2. **Account Resources:** Include → *your account*. Leave the rest empty.
+3. **Continue to summary → Create Token**, then **copy the token now** (it's shown only once).
+
+> If the permissions aren't filled in, go to https://dash.cloudflare.com/profile/api-tokens →
+> **Create Token → Custom token → Get started**, name it `Auto Social`, and add those three rows yourself.
 
 **3e. Find your Account ID.** It's the 32-character code in the dashboard address
 (`dash.cloudflare.com/<account-id>/…`), and it's also shown on the Workers & Pages overview.
@@ -276,6 +275,14 @@ twice.** Each photo is tracked by a fingerprint of its contents, on your compute
 
 After a week or so, send **`/auto on`** if you're happy with the captions.
 
+**In the app:**
+- **Schedule:** today's posting times with what's picked and whether it's asked, approved or posted,
+  plus the posts most likely to go next.
+- **Analytics:** likes, comments and reach per post, and your top posts (updated every Monday; click
+  **Sync** to pull them).
+- **Sync** also brings back what you did on Telegram: approvals and edited captions show in **Review**.
+- **Dashboard → Details** under a Caption, Upload or Sync run shows its step-by-step log.
+
 ---
 
 ## Adding photos later
@@ -318,6 +325,10 @@ for a 500-photo library.
 **How do I stop everything?** Send `/pause`. To remove it completely, delete `autosocial-worker`,
 the `autosocial-media` bucket, and the `autosocial` D1 database in your Cloudflare dashboard.
 
+**Can I stop one photo from being posted after uploading?** Yes. In **Review** (or the post's
+details in **Library**), click **Remove from queue**. It's deleted from your cloud storage. To post
+it after all, click **Include in posting** in Library, then **Upload**.
+
 **Can I edit a caption after uploading?** Yes. Edit it in **Review** (it updates in the cloud at
 once), or use ✏️ on Telegram.
 
@@ -327,5 +338,4 @@ once), or use ✏️ on Telegram.
 
 - **A slot more than an hour late is skipped for that day.** If the worker is first set up, or a time is added, after that time has passed, it starts the next day. This stops a burst of posts or late-night requests.
 - **Unsigned builds** show a warning on first launch (see [Install](#1-install-the-app)).
-- **The Schedule and Analytics screens aren't built yet.** Use `/status` and the weekly Telegram summary.
 - **No video,** and only Facebook Pages and Instagram.
