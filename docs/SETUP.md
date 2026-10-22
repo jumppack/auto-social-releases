@@ -1,78 +1,97 @@
 # Auto Social: full setup guide
 
-The app's **Setup** screen walks you through the same steps. This page is the reference, with more detail.
+Everything from installing the app to your first post, and how to use it day to day. The app's
+**Setup** screen walks you through the same steps. Back to the [overview](../README.md).
+
+**Contents:** [What you need](#what-you-need) · [1. Install the app](#1-install-the-app) · [2. First run: choose your photo folder](#2-first-run-choose-your-photo-folder) · [3. Cloudflare (storage + scheduler) · ~10 min](#3-cloudflare-storage--scheduler--10-min) · [4. Facebook Page + Instagram · ~15 min](#4-facebook-page--instagram--15-min) · [5. Captions: Gemini · ~3 min](#5-captions-gemini--3-min) · [6. Approvals: Telegram · ~3 min](#6-approvals-telegram--3-min) · [7. Caption, review, upload](#7-caption-review-upload) · [8. Choose your schedule and go live](#8-choose-your-schedule-and-go-live) · [Daily life](#daily-life) · [Adding photos later](#adding-photos-later) · [Updating the app](#updating-the-app) · [Where your data lives](#where-your-data-lives) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Known limitations](#known-limitations) · [Commands (power users)](#commands-power-users)
+
+---
 
 ## What you need
 
-| Account / thing | Why | Cost |
+| Account | What it's for | Cost |
 |---|---|---|
-| A personal **Facebook** account | To create a Page and a Meta developer app | Free |
+| A personal **Facebook** account | To create a Page and a free Meta developer app | Free |
 | An **Instagram** account | It becomes a public Creator account | Free |
-| A **Cloudflare** account | Your private photo storage and the daily scheduler | Free tier. Turning on R2 may ask for a card, but usage stays free |
-| A **Google** account | Gemini AI writes the captions | Free tier (see the privacy note in step 6) |
-| **Telegram** on your phone | Approve, edit, or skip each post | Free |
-| A folder of photos | JPEG, HEIC, or PNG. Subfolders are fine | |
+| A **Cloudflare** account | Private photo storage and the daily scheduler | Free tier. Turning on storage may ask for a card; normal use stays free |
+| A **Google** account | Gemini writes the captions | Free tier (see the note in [step 5](#5-captions-gemini--3-min)) |
+| **Telegram** on your phone | Approve, edit or skip each post | Free |
 
-Plan on about **45–60 minutes** for the first setup. You only do it once.
-
-> **Everything you create is yours.** Each person uses their own accounts, keys, and bot. Nothing
-> is shared with whoever gave you this app.
+⏱️ The first setup takes about **45–60 minutes**, once. The app's **Setup** screen guides you through
+every step below and checks each one before giving it a ✓.
 
 ---
 
 ## 1. Install the app
 
-**macOS**: pick the download for your Mac ( → About This Mac → **Chip** or **Processor**):
-- **Apple M1, M2, M3…** → `AutoSocial-…-macOS-arm64.zip` (macOS 11 or newer)
-- **Intel** → `AutoSocial-…-macOS-intel.zip` (macOS 10.15 or newer)
+Download from **[Releases](https://github.com/jumppack/auto-social-releases/releases/latest)**:
 
-1. Double-click the zip, then drag `Auto Social.app` into **Applications**.
-2. The app isn't signed by Apple, so the first open is blocked. Open it once (it's refused), then
-   go to **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to
-   "Auto Social". On macOS 14 or older, **right-click → Open → Open** also works.
-3. If you used the app from source before, macOS asks whether Auto Social may use the keys it
-   saved. Click **Always Allow** for each one. It asks again after installing a new version.
+| Your computer | Download | Needs |
+|---|---|---|
+| Mac with Apple M1, M2, M3… | `AutoSocial-…-macOS-arm64.zip` | macOS 11 or newer |
+| Mac with an Intel processor | `AutoSocial-…-macOS-intel.zip` | macOS 10.15 or newer |
+| Windows PC | `AutoSocial-…-windows.zip` | Windows 10 or 11 |
 
-**Windows** (10 or 11):
-1. Unzip the `Auto Social` folder anywhere, for example in Documents.
-2. Double-click **`Auto Social.exe`**. If Windows shows "Windows protected your PC", click
+Not sure which Mac you have? Open  → **About This Mac** and look at **Chip** or **Processor**.
+
+### macOS
+1. Double-click the zip, then drag **Auto Social** into **Applications**.
+2. The app isn't signed by Apple, so the first open is blocked. Try to open it once, then go to
+   **System Settings → Privacy & Security**, scroll down, and click **Open Anyway** next to
+   "Auto Social". (On macOS 14 or older: right-click the app → **Open** → **Open**.)
+3. If macOS asks whether Auto Social may use a key from your keychain, click **Always Allow**. This
+   can happen once per key after installing a new version.
+
+### Windows
+1. Unzip the **Auto Social** folder anywhere, for example in Documents.
+2. Double-click **Auto Social.exe**. If you see "Windows protected your PC", click
    **More info → Run anyway**.
-3. The app uses Microsoft Edge WebView2, which is already built into Windows 10/11.
+3. Nothing else to install: the app uses Microsoft Edge WebView2, which is built into Windows 10 and 11.
 
+> The warnings appear because the app isn't code-signed. They only show the first time.
 
 ---
 
 ## 2. First run: choose your photo folder
 
-The welcome wizard opens automatically.
+A short welcome wizard opens the first time.
+
+![The welcome wizard](screenshots/welcome.png)
+
 1. **Get started → Choose folder…** and pick the folder with the photos you want to post.
    Subfolders are included.
-   - The app **only reads** this folder. It never moves, renames, or changes your originals.
-2. **Scan this folder.** The app reads dates, merges identical copies, groups bursts of photos into
-   carousels, and flags possible problems. Nothing is uploaded.
-3. **When should posts go out?** Pick a posting time (or several, separated by commas), your timezone, and leave **"Ask me to approve
-   each post"** on for now.
+2. **Scan this folder.** The app reads dates, merges identical copies, groups bursts into
+   carousels, and flags possible problems. Nothing is uploaded yet.
+3. **When should posts go out?** Pick a posting time (or several, separated by commas) and your
+   timezone. Leave **"Ask me to approve each post"** on for now.
 4. **Open library.**
 
-### Optional: look through your library
-- **Library** shows every future post, newest first. Click a post to see its details.
-- Filter chips: **Carousels**, **Needs a look** (possibly blurry or near-duplicate shots), **No date**,
-  **Edited by you**, **Excluded**.
-- In a post's detail panel you can:
-  - reorder carousel photos (◀ ▶), **Remove** a photo from a carousel, or **Split** a carousel
-  - **Exclude** a post so it's never posted
-- **Select to merge** combines several posts into one carousel.
-- **Restore automatic grouping** undoes your grouping edits.
-- Warnings are only advice. Nothing is excluded unless you exclude it.
+### Look through your library (optional)
+
+![The Library](screenshots/library.png)
+
+- **Library** shows every future post, newest first. Use the chips to filter: **Carousels**,
+  **Needs a look**, **No date**, **Edited by you**, **Excluded**.
+- **Click a post** to see its details. There you can reorder carousel photos (◀ ▶), remove a photo
+  from a carousel, **Split** a carousel, or **Exclude** a post so it's never posted.
+- **Select to merge** combines several posts into one carousel. **Restore automatic grouping** undoes
+  your grouping edits.
+
+![A post's details](screenshots/post-details.png)
+
+> Warnings are only advice. Nothing is excluded unless you exclude it.
 
 ---
 
-> **Sections 3–6 are also in the app.** Open **Setup**: each service has numbered steps, buttons that open the right page, paste fields that catch a wrong paste, and a check before it gets a ✓.
+> **Steps 3–6 are also in the app.** Open **Setup**: each service has numbered steps, buttons that
+> open the right page, paste fields that catch a wrong paste, and a check before each ✓.
 
 ## 3. Cloudflare (storage + scheduler) · ~10 min
 
-Cloudflare stores your prepared photos **privately** and runs the small program (a "worker") that
+Cloudflare stores your prepared photos **privately** and runs the small program (the "worker") that
 posts every day.
+
+![Setup: the Cloudflare token step](screenshots/setup.png)
 
 **3a. Create the account.** Sign up at https://dash.cloudflare.com/sign-up and verify your email.
 Skip any "add a website" prompts.
@@ -84,30 +103,29 @@ Skip any "add a website" prompts.
 
 **3c. Turn on R2 storage.**
 1. Sidebar: **Storage & databases → R2 object storage**.
-2. Click the button to start: *Purchase R2 plan / Get started / Enable R2*.
-3. Add a card if asked. The free allowance is 10 GB and a photo library uses about 1 GB.
+2. Click the button to start: *Purchase R2 plan*, *Get started* or *Enable R2*.
+3. Add a card if asked. The free allowance is 10 GB; a photo library uses about 1 GB.
 4. **Don't create a bucket.** The app creates a private one.
 
 **3d. Create one API token.**
 1. In the app: **Setup → Cloudflare → Create the token**. Cloudflare opens with the name
-   `Auto Social` and the three permissions already filled in (**Account** → `Workers Scripts`,
-   `Workers R2 Storage`, `D1`, each **Edit**).
+   `Auto Social` and the three permissions already filled in: **Account** → `Workers Scripts`,
+   `Workers R2 Storage` and `D1`, each **Edit**.
 2. **Account Resources:** Include → *your account*. Leave the rest empty.
-3. **Continue to summary → Create Token**, then **copy the token now** (it's shown only once).
+3. **Continue to summary → Create Token**, then **copy the token now**. It's shown only once.
 
-> If the permissions aren't filled in, go to https://dash.cloudflare.com/profile/api-tokens →
+> If the permissions aren't filled in, open https://dash.cloudflare.com/profile/api-tokens →
 > **Create Token → Custom token → Get started**, name it `Auto Social`, and add those three rows yourself.
 
 **3e. Find your Account ID.** It's the 32-character code in the dashboard address
-(`dash.cloudflare.com/<account-id>/…`), and it's also shown on the Workers & Pages overview.
+(`dash.cloudflare.com/<account-id>/…`). It's also on the Workers & Pages overview.
 
 **3f. Connect it.**
-1. In the app, open **Setup → Cloudflare**.
-2. Paste the **Account ID** and the **API token**, then click **Save**.
-3. Click **Set up Cloudflare**. In about a minute the app creates a private bucket, a database, and
+1. In the app: **Setup → Cloudflare**. Paste the **Account ID** and the **API token**, then click **Save**.
+2. Click **Set up Cloudflare**. In about a minute the app creates a private bucket, a database and
    your worker, and switches on the schedule.
-4. Click **Check connection**. Every line should show ✓, including *Bucket has no public address*
-   and the upload, signed-link, and cleanup test.
+3. Click **Check connection**. Every line should show ✓, including *Bucket has no public address*
+   and the upload, signed-link and cleanup test.
 
 > It only touches things named `autosocial-…`. Other workers you already have are left alone. It
 > uses 1 of your account's 5 scheduled triggers.
@@ -118,12 +136,12 @@ Skip any "add a website" prompts.
 
 **4a. Create a Facebook Page.**
 1. While logged in to your personal account, go to https://www.facebook.com/pages/create.
-2. Pick a **name** (what followers see) and a category, such as *Digital creator*, *Photographer*,
+2. Pick a **name** (what followers see) and a category, such as *Digital creator*, *Photographer*
    or *Personal blog*.
 3. Click **Create Page**. Inviting friends is optional.
 
-> **Who sees Page posts?** Anyone can, because Pages are public. They don't show on your personal
-> timeline, and your friends only see them if they follow the Page.
+> **Who sees Page posts?** Anyone can, because Pages are public. They don't appear on your personal
+> timeline, and friends only see them if they follow the Page.
 
 **4b. Make Instagram a Creator account** (in the Instagram app).
 1. **Profile → ☰ → Account type and tools → Switch to professional account → Creator**.
@@ -138,17 +156,17 @@ Skip any "add a website" prompts.
 1. Go to https://developers.facebook.com and click **Get started** if you've never used it. You may
    need to verify a phone number.
 2. **My Apps → Create app**.
-   - **Name:** anything, for example `Auto Social`, plus your email.
+   - **Name:** anything, for example `Auto Social`.
    - **Use case:** **Other** → app type **Business**.
    - If asked about a business portfolio: **"I don't want to connect a business portfolio yet"**.
 3. Open **App settings → Basic** and copy the **App ID** and the **App secret** (click *Show*).
 4. In the app: **Setup → Facebook + Instagram**. Paste both and click **Save**.
 
-> The developer app stays in "development mode". That's fine, because you're the admin of your Page
-> and Instagram, so no Meta review is needed.
+> The developer app stays in "development mode". That's fine: you're the admin of your Page and
+> Instagram, so no Meta review or business verification is needed.
 
 **4e. Allow in-app login** (one time, in your developer app).
-1. In the app's dashboard sidebar, open **Facebook Login for Business → Settings**. If it isn't
+1. In the developer dashboard's sidebar, open **Facebook Login for Business → Settings**. If it isn't
    there: **Add product → Facebook Login for Business → Set up**.
 2. Under **Client OAuth settings**, turn on **Client OAuth login** and **Embedded browser OAuth
    login**, then **Save changes**.
@@ -157,6 +175,9 @@ Skip any "add a website" prompts.
      doesn't apply to you as the app's admin.
 
 **4f. Log in and connect.**
+
+![Setup: Log in with Facebook](screenshots/setup-facebook.png)
+
 1. In the app: **Setup → Facebook + Instagram → Log in with Facebook**.
 2. A Facebook window opens. Sign in, **select your Page and your Instagram account** (click
    **Edit access** if needed), and allow everything. The window closes by itself.
@@ -165,7 +186,7 @@ Skip any "add a website" prompts.
 3. Click **Check connection**. You should see 5 ✓: *never expires, all 6 permissions, your Page,
    your Instagram, publishing quota*.
 
-<details><summary>If Log in with Facebook doesn't work: use Graph API Explorer instead</summary>
+<details><summary><b>If Log in with Facebook doesn't work:</b> use Graph API Explorer instead</summary>
 
 1. Open **Graph API Explorer**: https://developers.facebook.com/tools/explorer
 2. On the right, set **Meta App** to *your app* and **User or Page** to **User Token**.
@@ -186,24 +207,22 @@ Skip any "add a website" prompts.
 2. In the app: **Setup → Gemini captions**. Paste it and click **Save and test**.
 
 > **Free tier or paid?**
-> - **Free tier:** captioning a whole library is free, but there's a daily limit, so a big library
->   takes a day or two. Google may use free-tier inputs, including your photos, to improve its
->   products.
-> - **Paid tier:** click **Set up billing** next to the key. It costs about $0.0005–0.001 per photo,
->   and your data isn't used for training.
+> - **Free tier:** captioning is free, but there's a daily limit, so a big library takes a day or
+>   two. Google may use free-tier inputs, including your photos, to improve its products.
+> - **Paid tier:** click **Set up billing** next to the key in AI Studio. It costs about
+>   $0.0005–0.001 per photo, and your data isn't used for training.
 
 ---
 
 ## 6. Approvals: Telegram · ~3 min
 
 1. In Telegram, open **@BotFather** and send `/newbot`.
-   - Give it a display name.
-   - Give it a username ending in `bot`, for example `myname_autosocial_bot`.
+   - Give it a display name, then a username ending in `bot`, for example `myname_autosocial_bot`.
 2. BotFather replies with a **token** (`123456789:AA…`). Copy it.
-3. In the app: **Setup → Telegram → Bot token**. Paste it and click **Save**.
+3. In the app: **Setup → Telegram approvals**. Paste the token and click **Save**.
 4. Open your bot in Telegram (`t.me/<your bot username>`), tap **Start**, and send it "hi".
 5. In the app, click **Connect Telegram**. You'll get "✅ Auto Social is connected" on your phone.
-6. Under **Setup → Cloudflare**, click **Update worker**. This switches on the bot's buttons.
+6. In the same step, click **Update worker**. This switches on the bot's buttons and commands.
 
 > The bot only answers **your** chat. Messages from anyone else are ignored.
 
@@ -212,60 +231,77 @@ Skip any "add a website" prompts.
 ## 7. Caption, review, upload
 
 On the **Dashboard**, under **Keep it running**:
-1. **Caption new photos.** It writes a caption, 1–3 hashtags, and alt text for every post, plus a
-   📍 location line when the photo has GPS.
-   - If the free Gemini limit is reached, it stops with "try again tomorrow". Click it again the next
-     day; posts that already have captions are skipped.
-2. **Optional: Review.** Edit any caption, hashtags, or place, **Regenerate** a caption, or
+1. **Caption new photos.** Writes a caption, 1–3 hashtags and alt text for every post, plus a
+   📍 place line when the photo has GPS. If the free Gemini limit is reached, it stops with "try
+   again tomorrow"; click it again the next day and it carries on where it stopped.
+2. **Review** (optional). Edit any caption, hashtags or place, **Regenerate** a caption, or
    **Approve** posts ahead of time. Approved posts skip the Telegram question.
-3. **Upload.** It sends the prepared photos to your private bucket. It's safe to stop and run again.
-4. **Sync.** It sends your settings to the worker and pulls back what's been posted.
+3. **Upload.** Sends the prepared photos to your private storage. It's safe to stop and run again.
+4. **Sync.** Pulls back what's been posted, the latest stats, and anything you approved or edited on Telegram.
 
-> Captions never name or guess who's in a photo, and never invent dates, places, or events.
+Under each run, **Details** shows its step-by-step log.
+
+![Review](screenshots/review.png)
+
+> Captions never name or guess who's in a photo, and never invent dates, places or events.
 > GPS is removed from the uploaded copies; the location only appears as the 📍 line.
 
 ---
 
 ## 8. Choose your schedule and go live
 
+![Settings](screenshots/settings.png)
+
 **Settings → Posting:**
-- **Posting times** and **Timezone**, for example `12:00`, `Asia/Kolkata`. For more than one post a day, list several times: `12:00, 18:00`. Each time gets its own pick and its own Telegram request.
+- **Posting times** and **Timezone**, for example `12:00` and `Asia/Kolkata`. For more than one post a
+  day, list several times: `12:00, 18:00`. Each time gets its own pick and its own Telegram request.
 - **Ask me to approve each post on Telegram**: recommended for the first week.
-- **Dry run**: when on, everything runs except the actual publishing. Leave it on for a test day if
-  you like, then turn it off to go live.
+- **Dry run**: everything runs except the actual publishing. Leave it on for a test day if you like,
+  then turn it off to go live.
 
 **Settings → Advanced:**
-- *Ask for approval this many hours before posting*. Default 3, so 09:00 for a 12:00 post.
-- *Auto-approve unanswered posts this many minutes before posting*. Default 30. Set it to 0 to hold
+- *Ask for approval this many hours before posting*: default 3, so 09:00 for a 12:00 post.
+- *Auto-approve unanswered posts this many minutes before posting*: default 30. Set it to 0 to hold
   unanswered posts instead.
-- *Share of picks that are the newest photo*. Default 0.8.
+- *Share of picks that are the newest photo*: default 0.8.
 
-Click **Save**, then **Dashboard → Sync**.
-
-> **In v1, settings only reach the worker when you click Sync (or Upload).** Always Sync after
-> changing Settings.
+Click **Save**. The scheduler is updated straight away; the message under **Save** confirms it.
 
 ---
 
 ## Daily life
 
-| Time (your timezone) | What happens |
+| When (your timezone) | What happens |
 |---|---|
-| Posting time − 3 h (e.g. 09:00) | Telegram sends today's pick: **✅ Approve**, **✏️ Edit** (then send the new caption as a message), **⏭️ Skip** (a new pick comes right away) |
+| Posting time − 3 h (e.g. 09:00) | Telegram sends the pick with **✅ Approve**, **✏️ Edit** (then send the new caption as a message) and **⏭️ Skip** (a new pick comes right away) |
 | Posting time − 30 min (e.g. 11:30) | Still unanswered? It's **auto-approved**, and you're told. Send `/pause` to stop it |
-| Posting time (e.g. 12:00) | Posted to Instagram and Facebook. The photo is deleted from the cloud bucket |
-| Mondays from 10:00 | A weekly stats summary (likes and comments) |
+| Posting time (e.g. 12:00) | Posted to Instagram and Facebook, then deleted from your cloud storage |
+| Mondays from 10:00 | A weekly summary of likes and comments |
 
-With several posting times (Settings → Posting times, e.g. `12:00, 18:00`), each time follows this
-schedule on its own, and its Telegram request says which time it's for.
+An approval request looks like this (with a small preview photo above it):
+
+```text
+🖼 Carousel of 3 photos
+
+Golden hour did all the work here. I just pressed the button. 🌅
+
+📍 Lisbon, Portugal
+
+#sunset #goldenhour
+
+[ ✅ Approve ]  [ ✏️ Edit ]  [ ⏭️ Skip ]
+```
+
+With several posting times, each one follows this timeline on its own, and its request starts with
+"🕐 For 18:00".
 
 **How posts are picked:** about 80% of the time it's your newest unposted photo, otherwise a random
 older one. Photos without a real date are only picked in the random share. **Nothing is ever posted
-twice.** Each photo is tracked by a fingerprint of its contents, on your computer and in the cloud.
+twice:** each photo is tracked by a fingerprint of its contents, on your computer and in the cloud.
 
 **Telegram commands:**
 
-| Command | Does |
+| Command | What it does |
 |---|---|
 | `/status` | Posts and days left, posted, failed, posting times, and the current mode |
 | `/pause` · `/resume` | Stop or restart posting |
@@ -276,12 +312,16 @@ twice.** Each photo is tracked by a fingerprint of its contents, on your compute
 After a week or so, send **`/auto on`** if you're happy with the captions.
 
 **In the app:**
-- **Schedule:** today's posting times with what's picked and whether it's asked, approved or posted,
-  plus the posts most likely to go next.
-- **Analytics:** likes, comments and reach per post, and your top posts (updated every Monday; click
-  **Sync** to pull them).
-- **Sync** also brings back what you did on Telegram: approvals and edited captions show in **Review**.
-- **Dashboard → Details** under a Caption, Upload or Sync run shows its step-by-step log.
+
+| Screen | Shows |
+|---|---|
+| **Schedule** | Today's posting times, what's picked for each and whether it's asked, approved or posted, and the posts most likely to go next |
+| **Analytics** | Likes, comments and reach for every post, and your top posts. Updated every Monday; click **Sync** to pull them |
+| **Review** | Captions, with "asked on Telegram" or "on hold" where that applies. **Remove from queue** pulls an uploaded post before it's posted |
+
+![Schedule](screenshots/schedule.png)
+
+![Analytics](screenshots/analytics.png)
 
 ---
 
@@ -292,50 +332,90 @@ After a week or so, send **`/auto on`** if you're happy with the captions.
 
 New photos slot into the order by when they were taken.
 
+## Updating the app
+
+1. Download the new version and replace the old app (Mac: drag it into Applications again; Windows:
+   replace the folder). Your settings, library and connections are kept.
+2. Open **Setup → Cloudflare → Update worker** once, so the scheduler gets the new features too.
+   Until you do, posting keeps working and the app reminds you.
+
+## Where your data lives
+
+| What | macOS | Windows |
+|---|---|---|
+| Library index, settings, thumbnails | `~/Library/Application Support/AutoSocial` | `%LOCALAPPDATA%\AutoSocial` |
+| Logs (including `jobs.log`) | `~/Library/Logs/AutoSocial` | `%LOCALAPPDATA%\AutoSocial\Logs` |
+| Keys and tokens | Keychain, under "AutoSocial" | Credential Manager, under "AutoSocial" |
+| Photos waiting to post | Your Cloudflare R2 bucket `autosocial-media` (private) | same |
+
+**To remove everything:** send `/pause`, then in the Cloudflare dashboard delete the
+`autosocial-worker` worker, the `autosocial-media` bucket and the `autosocial` D1 database. Then
+delete the app and the folders above. Your original photos are never touched.
+
 ---
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| No message at approval time | Send `/status`. Is it paused? Are posts left? On the Dashboard, click **Sync** |
-| "❌ A post failed to publish" | It isn't retried automatically. Check **Setup → Facebook + Instagram → Check connection**. If the token is the problem, redo step 4f, then **Update worker** |
-| "No Facebook Pages were shared with the app" | Redo 4f. In the Facebook window, click **Edit access** and tick your Page and Instagram. If it still fails, also add the `business_management` permission |
+| No message at approval time | Send `/status`: is it paused, are posts left? Then **Dashboard → Sync**, and look at **Schedule** |
+| "❌ A post failed to publish" | It isn't retried automatically. Run **Setup → Facebook + Instagram → Check connection**. If the token is the problem, redo [step 4f](#4-facebook-page--instagram--15-min), then **Update worker** |
+| "No Facebook Pages were shared with the app" | Redo 4f. In the Facebook window, click **Edit access** and tick your Page and Instagram |
+| The Facebook login window shows an error | Check step 4e: both switches on, then save. Or use the Graph API Explorer fallback in 4f |
 | "That doesn't look like a … token" when saving | The wrong thing was on your clipboard. Copy the value again |
 | Caption run stopped ("try again tomorrow") | The free Gemini daily limit was reached. Click **Caption new photos** again tomorrow |
 | Scan says the folder isn't available | The drive isn't connected. Nothing is marked missing until it's back |
 | Save says "Not sent to the scheduler yet" | The worker couldn't be reached. Click **Dashboard → Sync** later; the change is kept |
+| "Your worker is older than this app" | **Setup → Cloudflare → Update worker** |
 | Changed your Facebook password | Redo step 4f, then **Update worker** |
-
----
+| Something else | **Dashboard → Details** shows the last run's log; the full log is in the logs folder ([Your data](#where-your-data-lives)) |
 
 ## FAQ
 
-**Does my computer need to be on?** Only for setup, captioning, and uploading. Daily posting runs in
+**Does my computer need to be on?** Only for setup, captioning and uploading. Daily posting runs in
 your Cloudflare account.
 
 **What does it cost?** Nothing on free tiers. The paid Gemini tier is optional and costs about $0.50
 for a 500-photo library.
 
-**Who can see my photos before they're posted?**
-- Nobody. The bucket is private.
-- Instagram and Facebook fetch each photo through a link that expires after an hour.
-- Only you get the Telegram previews.
+**Who can see my photos before they're posted?** Nobody. The storage bucket is private. Instagram and
+Facebook fetch each photo through a link that expires after an hour, and only you get the Telegram
+previews.
 
-**How do I stop everything?** Send `/pause`. To remove it completely, delete `autosocial-worker`,
-the `autosocial-media` bucket, and the `autosocial` D1 database in your Cloudflare dashboard.
+**Can I stop one photo from being posted after uploading?** Yes. In **Review**, or in the post's
+details in **Library**, click **Remove from queue**. It's deleted from your cloud storage. To post it
+after all, click **Include in posting** in Library, then **Upload**.
 
-**Can I stop one photo from being posted after uploading?** Yes. In **Review** (or the post's
-details in **Library**), click **Remove from queue**. It's deleted from your cloud storage. To post
-it after all, click **Include in posting** in Library, then **Upload**.
+**Can I edit a caption after uploading?** Yes. Edit it in **Review** (the cloud copy updates at once),
+or use ✏️ on Telegram. Telegram edits show up in the app after a **Sync**.
 
-**Can I edit a caption after uploading?** Yes. Edit it in **Review** (it updates in the cloud at
-once), or use ✏️ on Telegram.
-
----
+**Will my Facebook friends see the posts?** Only if they follow your Page. Page posts don't appear on
+your personal timeline.
 
 ## Known limitations
 
-- **A slot more than an hour late is skipped for that day.** If the worker is first set up, or a time is added, after that time has passed, it starts the next day. This stops a burst of posts or late-night requests.
+- **No video.** Single photos and carousels only, to a Facebook Page and Instagram.
+- **A posting time more than an hour late is skipped for that day.** If the scheduler is first set
+  up, or a time is added, after that time has passed, it starts the next day. This prevents a burst
+  of posts or late-night requests.
 - **Unsigned builds** show a warning on first launch (see [Install](#1-install-the-app)).
-- **No video,** and only Facebook Pages and Instagram.
+
+---
+
+## Commands (power users)
+
+When running from source, `autosocial` means `.venv/bin/autosocial` in the project folder.
+
+| Command | What it does |
+|---|---|
+| `autosocial ui` | Open the app |
+| `autosocial status` | Settings and library counts |
+| `autosocial scan [--open]` | Scan the library and write an HTML report |
+| `autosocial caption --sample N` / `--all` / `--item ID` | Generate captions |
+| `autosocial upload [--limit N]` | Upload captioned posts (resumable) |
+| `autosocial sync` | Push settings; pull posted/failed posts, Telegram approvals and edits, and stats |
+| `autosocial setup-cloudflare [--dry-run]` | Create or update the bucket, database and worker |
+| `autosocial verify-cloudflare` · `verify-meta` | Connection checks |
+| `autosocial meta-login [--no-save]` | Log in with Facebook in a window (`--no-save` only tests it) |
+| `autosocial test-post [--item ID] [--live]` | Publish one post end to end (dry run by default) |
+| `autosocial request-approval --item ID` | Send a Telegram approval request now |
