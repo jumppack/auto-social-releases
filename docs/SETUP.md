@@ -276,7 +276,8 @@ Click **Save**. The scheduler is updated straight away; the message under **Save
 | Posting time − 3 h (e.g. 09:00) | Telegram sends the pick with **✅ Approve**, **✏️ Edit** (then send the new caption as a message) and **⏭️ Skip** (a new pick comes right away) |
 | Posting time − 30 min (e.g. 11:30) | Still unanswered? It's **auto-approved**, and you're told. Send `/pause` to stop it |
 | Posting time (e.g. 12:00) | Posted to Instagram and Facebook, then deleted from your cloud storage |
-| Mondays from 10:00 | A weekly summary of likes and comments |
+| Every evening from 21:00 | Likes and comments are refreshed for posts from the last two weeks |
+| Mondays from 10:00 | All posts are refreshed, and Telegram sends a weekly summary |
 
 An approval request looks like this (with a small preview photo above it):
 
@@ -316,7 +317,7 @@ After a week or so, send **`/auto on`** if you're happy with the captions.
 | Screen | Shows |
 |---|---|
 | **Schedule** | Today's posting times, what's picked for each and whether it's asked, approved or posted, and the posts most likely to go next |
-| **Analytics** | Likes, comments and reach for every post, and your top posts. Updated every Monday; click **Sync** to pull them |
+| **Analytics** | Likes, comments and reach for every post, and your top posts. Recent posts update every evening and all posts every Monday; **Refresh stats** updates the last 30 days right away |
 | **Review** | Captions, with "asked on Telegram" or "on hold" where that applies. **Remove from queue** pulls an uploaded post before it's posted |
 
 ![Schedule](screenshots/schedule.png)
